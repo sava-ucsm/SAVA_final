@@ -70,7 +70,6 @@ public class HashC<E extends Comparable<E>> {
 		//dressHash = linearProbing(dressHash, key,1);
 		dressHash = encadenamiento(dressHash,key,reg);
 		if(dressHash==-1) {
-			System.out.println("Insertado en el area de rebalse");
 			return;
 		}
 //		else if(dressHash==-2){
@@ -109,6 +108,40 @@ public class HashC<E extends Comparable<E>> {
 		return aux;
 	}
 	
+	public ArrayList<Element> getTable() {
+		return table;
+	}
+	public String[][] dataString(){
+		String[][] data = new String[10][3];
+		int i=0;
+		int j=0;
+		for(Element item: table) {
+			if(item.mark==1) {
+				data[i][j++]=item.reg.key+" ";
+				String splitStr[]=item.reg.value.toString().split(",");
+				data[i][j++]=splitStr[0];//Nombre
+				data[i][j++]=splitStr[1];//Direccion
+				
+				if(item.areaRebalse!=null) {
+					Node<Register<E>> aux=item.areaRebalse.getFirst();
+					i++;
+					j=0;
+
+					while(aux!=null) {
+						data[i][j++]=aux.getData().key+" ";
+						String spltStr[]=aux.getData().value.toString().split(",");
+						data[i][j++]=spltStr[0];
+						data[i][j++]=spltStr[1];
+						aux=aux.getNext();
+					}
+				}
+				i++;
+				j=0;
+			}
+			
+		}
+		return data;
+	}
 	public String toString() {
 		String s="D.Real\tD.Hash\tRegister\t\t\tArea de rebalse\n";
 		int i=0;

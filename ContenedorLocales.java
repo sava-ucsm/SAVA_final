@@ -19,7 +19,9 @@ public class ContenedorLocales {
 			return null;
 		}
 	}
-
+	public String[][] localesString() {
+		return contenedor.dataString();
+	}
 	@Override
 	public String toString() {
 		return this.contenedor.toString();

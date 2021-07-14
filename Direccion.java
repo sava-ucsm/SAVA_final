@@ -40,7 +40,7 @@ public class Direccion {
     }
     @Override
     public String toString() {
-        return this.getDistrito()+" "+this.getCiudad();
+        return this.getDistrito()+" - "+this.getCiudad();
     }
 
 }
