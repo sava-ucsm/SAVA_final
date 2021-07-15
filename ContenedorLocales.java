@@ -20,7 +20,15 @@ public class ContenedorLocales {
 		}
 	}
 	public String[][] localesString() {
-		return contenedor.dataString();
+		String[][] str=new String[10][5];
+		int i=0;
+		for(String[] item:contenedor.dataString()) {
+			if(item[0]!=null) {
+				str[i]=item;
+				i++;
+			}
+		}
+		return str;
 	}
 	@Override
 	public String toString() {

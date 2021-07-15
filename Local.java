@@ -72,9 +72,11 @@ public class Local implements Comparable<Local> {
     public GestionPacientes getGestionPacientes() {
 		return gp;
 	}
+    
+	
 	@Override
 	public String toString() {
-		return "Direccion: " + direccion + ", nombre: " + nombre;
+		return nombre + "," + direccion + "," + almacen.cantidadVacunas()+","+gp.cantidadVacunados();
 	}
     
 }

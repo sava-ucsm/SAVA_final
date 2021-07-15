@@ -112,7 +112,7 @@ public class HashC<E extends Comparable<E>> {
 		return table;
 	}
 	public String[][] dataString(){
-		String[][] data = new String[10][3];
+		String[][] data = new String[10][5];
 		int i=0;
 		int j=0;
 		for(Element item: table) {
@@ -121,7 +121,8 @@ public class HashC<E extends Comparable<E>> {
 				String splitStr[]=item.reg.value.toString().split(",");
 				data[i][j++]=splitStr[0];//Nombre
 				data[i][j++]=splitStr[1];//Direccion
-				
+				data[i][j++]=splitStr[2];//Stock de vacunas
+				data[i][j++]=splitStr[3];//Cantidad de vacunados
 				if(item.areaRebalse!=null) {
 					Node<Register<E>> aux=item.areaRebalse.getFirst();
 					i++;
@@ -132,6 +133,8 @@ public class HashC<E extends Comparable<E>> {
 						String spltStr[]=aux.getData().value.toString().split(",");
 						data[i][j++]=spltStr[0];
 						data[i][j++]=spltStr[1];
+						data[i][j++]=spltStr[2];
+						data[i][j++]=spltStr[3];
 						aux=aux.getNext();
 					}
 				}

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.util.Arrays;
 
 
 public class InterfazGestionLocales extends JFrame implements ActionListener {
@@ -9,6 +10,7 @@ public class InterfazGestionLocales extends JFrame implements ActionListener {
 	private JButton btnAdd;
 	private JTable dataTable;
 	private JScrollPane sp;
+	DefaultTableModel modelo;
 	private ContenedorLocales locales;
 	
 	public InterfazGestionLocales(ContenedorLocales contenedor) {
@@ -19,8 +21,9 @@ public class InterfazGestionLocales extends JFrame implements ActionListener {
 		locales=contenedor;
 		
 		String data[][]=locales.localesString();
-		String column[]= {"Nro","Nombre","Direccion"};
-		DefaultTableModel modelo=new DefaultTableModel(data,column);
+		System.out.println(Arrays.deepToString(data));
+		String column[]= {"Nro","Nombre","Direccion","Stock vacunas","Cantidad de vacunados"};
+		modelo=new DefaultTableModel(data,column);
 		dataTable=new JTable(modelo);
 		sp=new JScrollPane(dataTable);
 		
@@ -35,6 +38,7 @@ public class InterfazGestionLocales extends JFrame implements ActionListener {
 		add(sp);
 		
 		btnBack.addActionListener(this);
+		btnAdd.addActionListener(this);
 		setTitle("SAVA-Locales");
 	}
 	
@@ -42,10 +46,33 @@ public class InterfazGestionLocales extends JFrame implements ActionListener {
 		if(e.getSource()==btnBack) {
 			System.exit(0);
 		}
+		if(e.getSource()==btnAdd) {
+			InterfazAgregarLocal ventana = new InterfazAgregarLocal(this);
+			ventana.setBounds(0, 0, 200, 280);
+			ventana.setResizable(false);
+			ventana.setVisible(true);
+			ventana.setLocationRelativeTo(null);
+		}
+	}
+	public void recargarTabla() {
+		String data[][]=locales.localesString();
+		System.out.println(Arrays.deepToString(data));
+		String column[]= {"Nro","Nombre","Direccion","Stock vacunas","Cantidad de vacunados"};
+		modelo=new DefaultTableModel(data,column);
+		dataTable=new JTable(modelo);
+		sp=new JScrollPane(dataTable);
+		sp.setBounds(20, 80, 575, 315);
+		add(sp);
 	}
 	
+	public ContenedorLocales getLocales() {
+		return locales;
+	}
 
-	
+	public void setLocales(ContenedorLocales locales) {
+		this.locales = locales;
+	}
+
 	public static void main(String[] args) {	
 		ContenedorLocales listaLocales=new ContenedorLocales();
 		
@@ -55,10 +82,13 @@ public class InterfazGestionLocales extends JFrame implements ActionListener {
 		
 		listaLocales.registrarNuevoLocal(4, l1);
 		listaLocales.registrarNuevoLocal(10, l2);
-		listaLocales.registrarNuevoLocal(30, l3);
+		listaLocales.registrarNuevoLocal(20, l3);
+		listaLocales.registrarNuevoLocal(5, l3);
+		listaLocales.registrarNuevoLocal(21, l3);
+		listaLocales.registrarNuevoLocal(25, l3);
 		
 		InterfazGestionLocales ventana = new InterfazGestionLocales(listaLocales);
-		ventana.setBounds(0, 0, 630, 460);
+		ventana.setBounds(0, 0, 630, 480);
 		ventana.setResizable(false);
 		ventana.setVisible(true);
 		ventana.setLocationRelativeTo(null);
