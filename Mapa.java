@@ -1,25 +1,52 @@
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
-public class Mapa<E> extends JFrame {
+public class Mapa<E> extends JFrame implements ActionListener{
 	
-	public JLabel label1;
+	public JLabel label1; //titulo
+	public JLabel label2;  
+	private JButton boton1;
 	protected ListLinked<Punto_mapa> listVertex;
-	
-	
 	
 	public Mapa() {
 		listVertex = new ListLinked<Punto_mapa>();
+		this.setLayout(null);
+		this.setTitle("Ruta optima");
+		this.setResizable(false);
+		this.getContentPane().setBackground(Color.decode("#d2fdbc"));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(0,0,750,750);
+
+		label1= new JLabel("Ruta optima para el destino");
+		label1.setBounds(250,38,300,30);
+		label1.setFont(new Font("Helvetica",Font.BOLD, 16));
+		add(label1);
+		label2= new JLabel("");
+		label2.setBounds(570,40,300,30);
+		add(label2);
 		
-		
-		
-		
+		boton1= new JButton("Salir");
+		boton1.setBounds(40,40,120,30);
+		boton1.setForeground(Color.white);
+		boton1.setBackground(Color.decode("#418325"));
+		add(boton1);
+		boton1.addActionListener(this);
 	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()== boton1) {
+			this.setVisible(false);
+		}
+	}
+	
 	public void insertVertex(String dir,int x, int y) {
 		Punto_mapa nuevo = new Punto_mapa(dir,x,y);
 		if(listVertex.search(nuevo) !=-1) {
@@ -45,7 +72,7 @@ public class Mapa<E> extends JFrame {
 		return null;
 	}
 	
-	public void insertEdgeWeight(String verOri, String verDes, int weight) {
+	public void insertEdgeWeight(String verOri, String verDes, float weight) {
 		Punto_mapa rOri=listVertex.searchData(new Punto_mapa(verOri));
 		Punto_mapa rDes=listVertex.searchData(new Punto_mapa(verDes));
 		if(rOri==null || rDes == null) {
@@ -60,13 +87,18 @@ public class Mapa<E> extends JFrame {
 		rDes.listAdj.insertFirst(new Edge(rOri,weight));// grafico no dirigido
 	}
 	
-	public ArrayList<Punto_mapa> shortPath( String v, String z) { //dijstra
+	public void shortPath( String v, String z) { //dijstra
+		Punto_mapa temp0;
 		for(int i=0;i<this.listVertex.length();i++) {
+			temp0 =this.listVertex.searchIndex(i);
 			if(i==this.listVertex.search(new Punto_mapa(v)))
-				this.listVertex.searchIndex(i).setDist(0);
+				temp0.setDist(0);
 				
 			else
-				this.listVertex.searchIndex(i).setDist(99999);
+				temp0.setDist(99999);
+			for(int j=0;j<temp0.listAdj.length();j++) {
+				temp0.listAdj.searchIndex(j).setColor("negro");
+			}
 		}
 		OrderListLinked<Punto_mapa> colaPri =new OrderListLinked<Punto_mapa>(); //cola de prioridad
 		for (int i=0;i<this.listVertex.length();i++) {
@@ -93,33 +125,18 @@ public class Mapa<E> extends JFrame {
 				}
 			}
 		}
-		ArrayList<Punto_mapa> aux= new ArrayList<Punto_mapa>();
-		ListLinked<Punto_mapa> temp= new ListLinked<Punto_mapa>();//guardara los nodos de la ruta
+		
 		for(Punto_mapa primero= vIni;primero!=null;primero=primero.getPath()) {
-			temp.insertFirst(primero);
 			if(primero.getPath()!=null)
 				this.searchEdgex(primero, primero.getPath()).setColor("rojo");
 			
 		}
-		for(int i=0;i<temp.length();i++) {
-			aux.add(temp.searchIndex(i));
-		}
-		
-		
-		/*
-		for(int i=20;i<200;i=i+100) {
-			label1 = new JLabel("¿Que desea mostrar?");// se mostrara centrado
-			label1.setBounds(70,i,220,30);
-			this.add(label1);
-		}*/
-		
+		label2.setText("Distancia: "+vIni.getDist()+" Km");
 		Interfaz_mapa p= new Interfaz_mapa(this);
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		this.add(p);
-		
 		System.out.print("ruta minima:" );
-		return aux;
 		
 	}
 	
