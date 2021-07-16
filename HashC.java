@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 public class HashC<E extends Comparable<E>> {
 	protected class Element{
 		int mark;
@@ -72,10 +74,11 @@ public class HashC<E extends Comparable<E>> {
 		if(dressHash==-1) {
 			return;
 		}
-//		else if(dressHash==-2){
-//			System.out.println("key is duplicated...");
-//			return;
-//		}
+		else if(dressHash==-2){
+			System.out.println("key is duplicated...");
+			JOptionPane.showMessageDialog(null, "El numero de local ya esta registrado");
+			return;
+		}
 		else{
 			Element aux = new Element(1,new Register<E>(key, reg));
 			table.set(dressHash, aux);
@@ -111,35 +114,35 @@ public class HashC<E extends Comparable<E>> {
 	public ArrayList<Element> getTable() {
 		return table;
 	}
-	public String[][] dataString(){
-		String[][] data = new String[10][5];
-		int i=0;
-		int j=0;
+	public OrderListLinked<String> dataString(){
+		OrderListLinked<String> data = new OrderListLinked<String>();
 		for(Element item: table) {
 			if(item.mark==1) {
-				data[i][j++]=item.reg.key+" ";
-				String splitStr[]=item.reg.value.toString().split(",");
-				data[i][j++]=splitStr[0];//Nombre
-				data[i][j++]=splitStr[1];//Direccion
-				data[i][j++]=splitStr[2];//Stock de vacunas
-				data[i][j++]=splitStr[3];//Cantidad de vacunados
+				data.insert(item.reg.value+"");
 				if(item.areaRebalse!=null) {
 					Node<Register<E>> aux=item.areaRebalse.getFirst();
-					i++;
-					j=0;
-
 					while(aux!=null) {
-						data[i][j++]=aux.getData().key+" ";
-						String spltStr[]=aux.getData().value.toString().split(",");
-						data[i][j++]=spltStr[0];
-						data[i][j++]=spltStr[1];
-						data[i][j++]=spltStr[2];
-						data[i][j++]=spltStr[3];
+						data.insert(aux.getData().value+"");
 						aux=aux.getNext();
 					}
 				}
-				i++;
-				j=0;
+			}
+			
+		}
+		return data;
+	}
+	public OrderListLinked<E> listData(){
+		OrderListLinked<E> data = new OrderListLinked<E>();
+		for(Element item: table) {
+			if(item.mark==1) {
+				data.insert(item.reg.value);
+				if(item.areaRebalse!=null) {
+					Node<Register<E>> aux=item.areaRebalse.getFirst();
+					while(aux!=null) {
+						data.insertLast(aux.getData().value);
+						aux=aux.getNext();
+					}
+				}
 			}
 			
 		}

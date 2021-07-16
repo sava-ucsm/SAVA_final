@@ -20,7 +20,7 @@ public class OrderListLinked<T extends Comparable<T>> extends ListLinked<T> {
 		}	
 		return -1;
 	}
-	public void insertLast(T x) {
+	public void insert(T x) {
 		Node<T> aux = this.getFirst();
 		Node<T> temp = null;
 		

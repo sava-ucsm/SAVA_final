@@ -1,5 +1,7 @@
 
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.*;
 public class InterfazAgregarLocal extends JFrame implements ActionListener {
 	
@@ -20,6 +22,7 @@ public class InterfazAgregarLocal extends JFrame implements ActionListener {
 	private InterfazGestionLocales gestionLocales;
 	
 	public InterfazAgregarLocal(InterfazGestionLocales padre) {
+		this.getContentPane().setBackground(Color.decode("#d2fdbc"));
 		setLayout(null);
 		setTitle("Agregar nuevo local");
 		this.gestionLocales=padre;
@@ -53,6 +56,11 @@ public class InterfazAgregarLocal extends JFrame implements ActionListener {
 		txtDistrito.setBounds(20,180,largo,alto);
 		btnAdd.setBounds(20, 210, largo, 30);
 		
+		btnBack.setForeground(Color.white);
+		btnAdd.setForeground(Color.white);
+		btnBack.setBackground(Color.decode("#418325"));
+		btnAdd.setBackground(Color.decode("#418325"));
+		
 		add(lblTitle);
 		add(btnBack);
 		add(lblNro);
@@ -80,7 +88,7 @@ public class InterfazAgregarLocal extends JFrame implements ActionListener {
 			String provincia=txtNombre.getText();
 			String distrito=txtNombre.getText();
 			
-			Local l1=new Local(new Direccion(distrito,provincia),nombre);
+			Local l1=new Local(nro,nombre,new Direccion(distrito,provincia));
 			gestionLocales.getLocales().registrarNuevoLocal(nro, l1);
 			gestionLocales.recargarTabla();
 			this.dispose();

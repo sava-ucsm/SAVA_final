@@ -1,14 +1,17 @@
 public class Local implements Comparable<Local> {
-    private Direccion direccion;
-    private String nombre;
+	private int nro;
+	private String nombre;
+	private Direccion direccion;
     private Inventario almacen;
     private  ListLinked<PersonalSalud> personal;
     private GestionPacientes gp;
     
-	public Local(Direccion d,String nombre){
+	public Local(int nro,String nombre,Direccion direccion){
     	gp= new GestionPacientes();
-        this.direccion = d;
+        this.nro = nro;
         this.nombre = nombre;
+        this.direccion = direccion;
+        
         this.almacen = new Inventario();
         this.personal = new OrderListLinked<PersonalSalud>();
         Vacuna vac1 = new Vacuna("Fizer", 15000 ,  3 ,75 , 3 );
@@ -20,7 +23,7 @@ public class Local implements Comparable<Local> {
     }
 	//////////////////////////////////////////
 	public int compareTo(Local l) {
-		return l.nombre.compareTo(this.nombre);
+		return this.nro-l.nro;
 	}
 	/////////////////////////////////////////
     public void agregarPersonal(PersonalSalud p){
@@ -76,7 +79,7 @@ public class Local implements Comparable<Local> {
 	
 	@Override
 	public String toString() {
-		return nombre + "," + direccion + "," + almacen.cantidadVacunas()+","+gp.cantidadVacunados();
+		return nro + "," + nombre + "," + direccion + "," + almacen.cantidadVacunas()+","+gp.cantidadVacunados();
 	}
     
 }

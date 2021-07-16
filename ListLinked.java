@@ -41,7 +41,9 @@ public class ListLinked<T extends Comparable<T>> implements TDAList<T> {
 		}else {
 			Node<T> last = getLastNode();
 			last.setNext(new Node<T>(x));
+			this.count++;
 		}
+		
 	}
 	//Precondiciom : Lista no debe estar vacia
 	private Node<T> getLastNode(){
