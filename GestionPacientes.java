@@ -90,4 +90,16 @@ public class GestionPacientes {
 		}
 		return salida;
 	}
+	//AGREGACION DE NUEVO METODO
+	public int cantidadVacunados() {
+		int n=0;
+		ArrayList<Paciente> lista = new ArrayList<Paciente>();
+		data.list_inOrden(lista);
+		for (Paciente p : lista) {
+			if (p.getDosis_recibidas()>0) {
+				n++;
+			}
+		}
+		return n;
+	}
 }
